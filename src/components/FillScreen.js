@@ -32,7 +32,7 @@ class FillScreen extends React.Component {
   };
 
   render() {
-    const { children, ...rest } = this.props;
+    const { children, fillRate, ...rest } = this.props;
     const { height } = this.state;
     return (
       <div style={{ height }} ref={this.saveRef} {...rest}>

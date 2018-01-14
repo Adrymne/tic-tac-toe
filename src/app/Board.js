@@ -1,18 +1,25 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
+import sizeMe from 'react-sizeme';
 import './Board.css';
 import Cell from './board/Cell';
 
-const DUMMY = ['X', '', 'O', '', 'X', '', 'X', '', 'O'];
+const DUMMY = [['X', '', 'O'], ['', 'X', ''], ['X', '', 'O']];
 
-const Board = ({ cells = DUMMY }) => (
-  <Row>
-    {cells.map((cell, i) => (
-      <Col className="cell-container" xs={4} key={i}>
-        <Cell contents={cell} />
-      </Col>
+const calcDimensions = ({ width, height }) =>
+  width < height ? { width, height: width } : { width: height, height };
+
+const Board = ({ cells = DUMMY, size }) => (
+  <div className="board" style={calcDimensions(size)}>
+    {cells.map((row, i) => (
+      <div className="board-row" key={i}>
+        {row.map((cell, j) => (
+          <div className="board-col" key={j}>
+            <Cell contents={cell} />
+          </div>
+        ))}
+      </div>
     ))}
-  </Row>
+  </div>
 );
 
-export default Board;
+export default sizeMe({ monitorHeight: true })(Board);

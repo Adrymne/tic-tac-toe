@@ -3,13 +3,13 @@ import { Button } from 'reactstrap';
 import './Cell.css';
 
 const Cell = ({ contents }) => (
-  <div className="cell">
+  <React.Fragment>
     {contents ? (
-      <div className="board-cell">{contents}</div>
+      <div className="cell board-cell">{contents}</div>
     ) : (
-      <Button className="empty-cell" outline color="secondary" />
+      <Button className="cell empty-cell" outline color="secondary" />
     )}
-  </div>
+  </React.Fragment>
 );
 
 export default Cell;
