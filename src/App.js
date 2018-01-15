@@ -8,7 +8,7 @@ const App = () => (
   <Container fluid>
     <Row>
       <Col>
-        <Board style={{ height: '80vh' }} />
+        <Board style={{ height: '80vh', width: '95vw' }} />
       </Col>
     </Row>
     <Row>
