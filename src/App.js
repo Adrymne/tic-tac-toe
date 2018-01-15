@@ -1,19 +1,29 @@
-import React, { Component } from 'react';
-import './App.css';
+import React from 'react';
+import { Container, Row, Col } from 'reactstrap';
+import Board from './app/Board';
+import Score from './app/Score';
+import Options from './app/Options';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+const App = () => (
+  <Container fluid>
+    <Row>
+      <Col>
+        <Board style={{ height: '80vh' }} />
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <Row>
+          <Col xs={7}>
+            <Score />
+          </Col>
+          <Col>
+            <Options />
+          </Col>
+        </Row>
+      </Col>
+    </Row>
+  </Container>
+);
 
 export default App;
