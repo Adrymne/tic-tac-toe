@@ -14,7 +14,7 @@ const toMarkSelector = state =>
     ? propOr(EMPTY, __, { [P1]: NOUGHT, [P2]: CROSS })
     : propOr(EMPTY, __, { [P1]: CROSS, [P2]: NOUGHT });
 // boardSelector :: State -> Cells
-const cellsSelector = pipe(prop('game'), gameSelectors.cellsSelector);
+export const cellsSelector = pipe(prop('game'), gameSelectors.cellsSelector);
 
 // mapBoard :: (Cell -> BoardCell, Cells) -> Board
 const mapBoard = uncurryN(2, toMark => pipe(map(toMark), splitEvery(3)));

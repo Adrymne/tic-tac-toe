@@ -1,6 +1,6 @@
-import { prop, evolve, __, update } from 'ramda';
+import { prop, evolve, __, update, always } from 'ramda';
 import { createReducer } from 'utils';
-import { PICK_SQUARE } from 'store/actions';
+import { PICK_SQUARE, END_GAME } from 'store/actions';
 
 const DEFAULT_STATE = {
   cells: new Array(9),
@@ -17,7 +17,8 @@ export default createReducer(DEFAULT_STATE, {
     evolve(__, state)({
       cells: recordMove(action.payload, state),
       activePlayer: switchPlayer
-    })
+    }),
+  [END_GAME]: () => always(DEFAULT_STATE)
 });
 
 export const cellsSelector = prop('cells');
