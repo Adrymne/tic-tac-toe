@@ -5,7 +5,7 @@ export const pickSquare = (row, column) => ({
 });
 
 export const END_GAME = 'END_GAME';
-export const endGame = winner => ({ type: END_GAME, winner });
+export const endGame = winner => ({ type: END_GAME, payload: { winner } });
 
 export const SET_P1_MARK = 'SET_P1_MARK';
 export const setP1Mark = mark => ({ type: SET_P1_MARK, payload: { mark } });

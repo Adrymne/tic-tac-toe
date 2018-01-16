@@ -12,5 +12,5 @@ const DEFAULT = {
 const lensWinner = ({ winner }) => R.lensProp(R.defaultTo('tie', winner));
 
 export default createReducer(DEFAULT, {
-  [END_GAME]: action => R.over(lensWinner(action), R.inc)
+  [END_GAME]: action => R.over(lensWinner(action.payload), R.inc)
 });
