@@ -3,10 +3,15 @@ import { combineReducers } from 'redux';
 import { createSelector } from 'reselect';
 import { NOUGHT, CROSS, EMPTY, P1, P2 } from 'types';
 import game, * as gameSelectors from './game';
+import score from './score';
 
 const p1IsNought = (state = true, action) => state;
 
-export default combineReducers({ p1IsNought, game });
+export default combineReducers({ p1IsNought, score, game });
+
+// SELECTORS
+
+export const getScore = state => state.score;
 
 // marksSelector :: State -> (Cell -> BoardCell)
 const toMarkSelector = state =>

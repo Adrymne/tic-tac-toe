@@ -1,22 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './Score.css';
+import { getScore } from 'store/reducers';
+import { P1, P2 } from 'types';
 
-const Score = () => (
+const Score = ({ score }) => (
   <div className="score">
     <div>
       <b>P1</b>
-      <br />|
+      <br />
+      {score[P1]}
     </div>
     <div>
       <b>Tie</b>
       <br />
-      <s>||||</s>
+      {score.tie}
     </div>
     <div>
-      <b>COM</b>
-      <br />1
+      <b>P2</b>
+      <br />
+      {score[P2]}
     </div>
   </div>
 );
 
-export default Score;
+const mapStateToProps = state => ({ score: getScore(state) });
+
+export default connect(mapStateToProps)(Score);
