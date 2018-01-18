@@ -1,4 +1,3 @@
-import * as R from 'ramda';
 import * as sut from './minimax';
 import { NOUGHT, CROSS, EMPTY } from 'types';
 
@@ -42,7 +41,7 @@ describe('pickBestMove', () => {
   const subject = sut.pickBestMove;
 
   it('player move', () => {
-    const isPlayerActive = true;
+    const isPlayerTurn = true;
     const results = [
       { move: 1, score: 0 },
       { move: 5, score: 10 },
@@ -50,7 +49,7 @@ describe('pickBestMove', () => {
       { move: 8, score: 10 }
     ];
 
-    const result = subject(isPlayerActive, results);
+    const result = subject(isPlayerTurn, results);
 
     expect(result).toEqual({
       move: 5,
@@ -59,7 +58,7 @@ describe('pickBestMove', () => {
   });
 
   it('opponent move', () => {
-    const isPlayerActive = false;
+    const isPlayerTurn = false;
     const results = [
       { move: 1, score: 0 },
       { move: 5, score: 10 },
@@ -67,7 +66,7 @@ describe('pickBestMove', () => {
       { move: 8, score: 10 }
     ];
 
-    const result = subject(isPlayerActive, results);
+    const result = subject(isPlayerTurn, results);
 
     expect(result).toEqual({
       move: 6,
@@ -82,7 +81,6 @@ describe('minimax', () => {
   it('find best move', () => {
     const player = CROSS;
     const active = CROSS;
-    const move = undefined;
     // prettier-ignore
     const cells = [
       NOUGHT, EMPTY, CROSS,
@@ -90,11 +88,29 @@ describe('minimax', () => {
       CROSS, NOUGHT, NOUGHT
     ];
 
-    const result = subject(player, active, move, cells);
+    const result = subject(player, active, cells);
 
     expect(result).toEqual({
       score: 10,
       move: 4
+    });
+  });
+
+  it('completed game', () => {
+    const player = CROSS;
+    const active = CROSS;
+    // prettier-ignore
+    const cells = [
+      NOUGHT, EMPTY, CROSS,
+      CROSS, NOUGHT, EMPTY,
+      CROSS, NOUGHT, NOUGHT
+    ];
+
+    const result = subject(player, active, cells);
+
+    expect(result).toEqual({
+      score: -10,
+      move: undefined
     });
   });
 });
