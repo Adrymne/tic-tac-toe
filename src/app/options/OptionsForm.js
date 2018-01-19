@@ -5,6 +5,9 @@ import { Form, Button } from 'reactstrap';
 import './OptionsForm.css';
 import OpponentSelect from './optionsForm/OpponentSelect';
 import SideSelect from './optionsForm/SideSelect';
+import * as selectors from 'store/reducers';
+import * as actions from 'store/actions';
+import { NOUGHT, CROSS, PLAYER, HARD_COM } from 'types';
 
 class OptionsForm extends React.Component {
   constructor(props) {
@@ -25,13 +28,21 @@ class OptionsForm extends React.Component {
       isModified: !R.equals(this.props.values, form)
     });
   };
+  onSubmit = event => {
+    const { form, isModified } = this.state;
+    event.preventDefault();
+    if (isModified) {
+      this.props.onSubmit(form);
+      this.props.onDone();
+    }
+  };
 
   render() {
     const { form, isModified } = this.state;
     const { possibleValues, isGameInProgress } = this.props;
 
     return (
-      <Form>
+      <Form onSubmit={this.onSubmit}>
         <SideSelect
           selected={form.side}
           values={possibleValues.side}
@@ -51,7 +62,7 @@ class OptionsForm extends React.Component {
           ) : (
             ''
           )}{' '}
-          <Button type="button" color="danger" disabled={!isModified}>
+          <Button type="submit" color="danger" disabled={!isModified}>
             Save
           </Button>
         </div>
@@ -60,17 +71,17 @@ class OptionsForm extends React.Component {
   }
 }
 
-// TODO: connect to state
 const mapStateToProps = state => ({
-  isGameInProgress: true,
+  isGameInProgress: selectors.isGameInProgress(state),
   values: {
-    side: 'X',
-    opponent: 'player'
+    side: selectors.getP1Mark(state),
+    opponent: selectors.getP2Type(state)
   },
   possibleValues: {
-    side: ['X', 'O'],
-    opponent: ['player', 'opponent']
+    side: [CROSS, NOUGHT],
+    opponent: [PLAYER, HARD_COM]
   }
 });
+const mapDispatchToProps = { onSubmit: actions.updateSettings };
 
-export default connect(mapStateToProps)(OptionsForm);
+export default connect(mapStateToProps, mapDispatchToProps)(OptionsForm);

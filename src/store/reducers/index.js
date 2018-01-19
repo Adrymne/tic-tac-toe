@@ -12,10 +12,14 @@ export default combineReducers({ p1, p2, score, game });
 // SELECTORS
 export const getP1Mark = pipe(prop('p1'), p1Selectors.getP1Mark);
 export const getP2Mark = pipe(prop('p1'), p1Selectors.getP2Mark);
+export const getP2Type = pipe(prop('p2'), p2Selectors.getP2Type);
 export const isVsCom = pipe(prop('p2'), p2Selectors.isVsCom);
 export const getScore = prop('score');
-// boardSelector :: State -> Cells
 export const getCells = pipe(prop('game'), gameSelectors.cellsSelector);
+export const isGameInProgress = pipe(
+  prop('game'),
+  gameSelectors.isGameInProgress
+);
 
 // getBoard :: State -> Board
 export const getBoard = createSelector(getCells, splitEvery(3));

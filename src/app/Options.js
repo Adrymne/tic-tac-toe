@@ -26,7 +26,7 @@ class Options extends React.Component {
         </Button>
         <Modal isOpen={isOpen} toggle={this.toggleModal}>
           <ModalBody>
-            <OptionsForm />
+            <OptionsForm onDone={this.toggleModal} />
           </ModalBody>
         </Modal>
       </div>

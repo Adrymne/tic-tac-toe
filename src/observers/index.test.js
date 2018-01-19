@@ -49,7 +49,7 @@ describe('updateBoard', () => {
         activePlayer: CROSS
       },
       p1: NOUGHT,
-      p2: { type: PLAYER }
+      p2: PLAYER
     };
 
     const result = subject(state);
@@ -68,7 +68,7 @@ describe('updateBoard', () => {
         ],
         activePlayer: NOUGHT
       },
-      p2: { type: PLAYER }
+      p2: PLAYER
     };
 
     const result = subject(state);
@@ -88,7 +88,7 @@ describe('updateBoard', () => {
         activePlayer: NOUGHT
       },
       p1: CROSS,
-      p2: { type: HARD_COM }
+      p2: HARD_COM
     };
 
     const result = subject(state);

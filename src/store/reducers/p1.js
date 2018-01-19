@@ -1,10 +1,10 @@
 import { always } from 'ramda';
 import { createReducer } from 'utils';
-import { SET_P1_MARK } from 'store/actions';
+import { UPDATE_SETTINGS } from 'store/actions';
 import { CROSS, NOUGHT } from 'types';
 
 export default createReducer(CROSS, {
-  [SET_P1_MARK]: action => always(action.payload.mark)
+  [UPDATE_SETTINGS]: action => always(action.payload.side)
 });
 
 export const getP1Mark = state => state;

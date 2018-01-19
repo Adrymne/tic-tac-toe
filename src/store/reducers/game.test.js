@@ -41,3 +41,28 @@ it('update active player', () => {
   expect(R.prop('activePlayer', subject(crossTurn, action))).toBe(NOUGHT);
   expect(R.prop('activePlayer', subject(noughtTurn, action))).toBe(CROSS);
 });
+
+it('reset game if settings updated', () => {
+  const state = {
+    // prettier-ignore
+    cells: [
+      NOUGHT, EMPTY, CROSS,
+      CROSS, EMPTY, EMPTY,
+      CROSS, NOUGHT, EMPTY
+    ],
+    activePlayer: NOUGHT
+  };
+  const action = actions.updateSettings();
+
+  const result = subject(state, action);
+
+  expect(result).toEqual({
+    // prettier-ignore
+    cells: [
+      EMPTY, EMPTY, EMPTY,
+      EMPTY, EMPTY, EMPTY,
+      EMPTY, EMPTY, EMPTY
+    ],
+    activePlayer: CROSS
+  });
+});
