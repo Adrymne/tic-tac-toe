@@ -76,7 +76,7 @@ describe('pickBestMove', () => {
 });
 
 describe('minimax', () => {
-  const subject = sut.minimax;
+  const subject = sut.default;
 
   it('find best move', () => {
     const player = CROSS;

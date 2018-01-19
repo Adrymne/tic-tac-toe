@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import findWinner from 'observers/judge/judge';
+import findWinner from './judge';
 import { EMPTY, NOUGHT, CROSS } from 'types';
 
 // score :: Mark -> Mark -> Int
@@ -45,4 +45,4 @@ minimax = (player, active, cells, move = undefined) => {
   )(cells);
 };
 
-export { minimax };
+export default minimax;
