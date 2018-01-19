@@ -1,38 +1,89 @@
 import React from 'react';
+import * as R from 'ramda';
 import { connect } from 'react-redux';
-import { partial } from 'ramda';
-import { Button, ButtonGroup } from 'reactstrap';
+import { Button, Modal, ModalBody, Form } from 'reactstrap';
 import './Options.css';
-import { NOUGHT, CROSS } from 'types';
-import * as actions from 'store/actions';
-import { getP1Mark } from 'store/reducers';
+import OpponentSelect from './options/OpponentSelect';
+import SideSelect from './options/SideSelect';
 
-const Options = ({ p1Mark, onClick }) => (
-  <div className="options">
-    <ButtonGroup>
-      <Button
-        size="lg"
-        active={p1Mark === NOUGHT}
-        onClick={partial(onClick, [NOUGHT])}
-      >
-        O
-      </Button>
-      <Button
-        size="lg"
-        active={p1Mark === CROSS}
-        onClick={partial(onClick, [CROSS])}
-      >
-        X
-      </Button>
-    </ButtonGroup>
-  </div>
-);
+class Options extends React.Component {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      isOpen: false,
+      form: props.values,
+      isModified: false
+    };
+  }
+
+  toggleModal = () => {
+    this.setState({ isOpen: !this.state.isOpen });
+  };
+  onChange = (field, value) => {
+    const form = R.assoc(field, value, this.state.form);
+    this.setState({
+      form,
+      isModified: !R.equals(this.props.values, form)
+    });
+  };
+
+  render() {
+    const { isOpen, form, isModified } = this.state;
+    const { possibleValues, isGameInProgress } = this.props;
+
+    return (
+      <div>
+        <Button color="secondary" outline onClick={this.toggleModal}>
+          Options
+        </Button>
+        <Modal isOpen={isOpen} toggle={this.toggleModal}>
+          <ModalBody>
+            <Form>
+              <SideSelect
+                selected={form.side}
+                values={possibleValues.side}
+                onChange={event => this.onChange('side', event.target.value)}
+              />
+              <OpponentSelect
+                selected={form.opponent}
+                values={possibleValues.opponent}
+                onChange={event =>
+                  this.onChange('opponent', event.target.value)
+                }
+              />
+              <hr />
+              <div style={{ float: 'right' }}>
+                {isGameInProgress && isModified ? (
+                  <small className="text-danger">
+                    Changing settings will reset the current game.
+                  </small>
+                ) : (
+                  ''
+                )}{' '}
+                <Button type="button" color="danger" disabled={!isModified}>
+                  Save
+                </Button>
+              </div>
+            </Form>
+          </ModalBody>
+        </Modal>
+      </div>
+    );
+  }
+}
+
+// TODO: connect to state
 const mapStateToProps = state => ({
-  p1Mark: getP1Mark(state)
+  isGameInProgress: true,
+  values: {
+    side: 'X',
+    opponent: 'player'
+  },
+  possibleValues: {
+    side: ['X', 'O'],
+    opponent: ['player', 'opponent']
+  }
 });
-const mapDispatchToProps = {
-  onClick: actions.setP1Mark
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Options);
+export default connect(mapStateToProps)(Options);
