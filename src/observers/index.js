@@ -1,5 +1,4 @@
 import * as R from 'ramda';
-import createObserver from 'redux-watch';
 import store from 'store';
 import { getCells, isVsCom, getActivePlayer, getP1Mark } from 'store/reducers';
 import { P1, P2 } from 'types';
@@ -36,5 +35,4 @@ const runUpdate = R.pipe(
   R.unless(R.isNil, store.dispatch)
 );
 
-const observeBoard = createObserver(R.pipe(store.getState, getCells));
-store.subscribe(observeBoard(runUpdate));
+store.subscribe(runUpdate);
