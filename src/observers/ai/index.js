@@ -9,6 +9,8 @@ const findNextMove = R.curry((computerMark, cells) =>
 );
 
 // executeMove :: Result -> Action
+// NB: minimax can return undefined move if passed a completed board
+//     this should never happen as caller checks whether game is over before calling ai
 export const executeMove = ({ move }) =>
   actions.pickSquare(Math.floor(move / 3), move % 3);
 

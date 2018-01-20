@@ -28,14 +28,16 @@ export const pickBestMove = R.curry((isPlayerTurn, results) =>
 
 let minimax;
 
-const evaluateMove = R.curry((player, active, cells, move) =>
-  minimax(player, nextTurn(active), R.update(move, player, cells), move)
-);
+const evaluateMove = R.curry((player, active, cells, move) => ({
+  score: minimax(player, nextTurn(active), R.update(move, active, cells)).score,
+  move
+}));
+
 // minimax :: Mark -> Mark -> Cells -> Index -> Result
-minimax = (player, active, cells, move = undefined) => {
+minimax = (player, active, cells) => {
   const { isEnded, winner } = findWinner(cells);
   if (isEnded) {
-    return { score: score(player, winner), move };
+    return { score: score(player, winner), move: undefined };
   }
 
   return R.pipe(
