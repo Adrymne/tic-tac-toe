@@ -1,38 +1,37 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { partial } from 'ramda';
-import { Button, ButtonGroup } from 'reactstrap';
+import { Button, Modal, ModalBody } from 'reactstrap';
 import './Options.css';
-import { NOUGHT, CROSS } from 'types';
-import * as actions from 'store/actions';
-import { getP1Mark } from 'store/reducers';
+import OptionsForm from './options/OptionsForm';
 
-const Options = ({ p1Mark, onClick }) => (
-  <div className="options">
-    <ButtonGroup>
-      <Button
-        size="lg"
-        active={p1Mark === NOUGHT}
-        onClick={partial(onClick, [NOUGHT])}
-      >
-        O
-      </Button>
-      <Button
-        size="lg"
-        active={p1Mark === CROSS}
-        onClick={partial(onClick, [CROSS])}
-      >
-        X
-      </Button>
-    </ButtonGroup>
-  </div>
-);
+class Options extends React.Component {
+  constructor(props) {
+    super(props);
 
-const mapStateToProps = state => ({
-  p1Mark: getP1Mark(state)
-});
-const mapDispatchToProps = {
-  onClick: actions.setP1Mark
-};
+    this.state = {
+      isOpen: false
+    };
+  }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Options);
+  toggleModal = () => {
+    this.setState({ isOpen: !this.state.isOpen });
+  };
+
+  render() {
+    const { isOpen } = this.state;
+
+    return (
+      <div>
+        <Button color="secondary" outline onClick={this.toggleModal}>
+          Options
+        </Button>
+        <Modal isOpen={isOpen} toggle={this.toggleModal}>
+          <ModalBody>
+            <OptionsForm onDone={this.toggleModal} />
+          </ModalBody>
+        </Modal>
+      </div>
+    );
+  }
+}
+
+export default Options;

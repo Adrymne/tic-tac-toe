@@ -1,16 +1,17 @@
-import { prop, evolve, __, update, always } from 'ramda';
+import { prop, evolve, __, update, always, all, equals } from 'ramda';
 import { createReducer } from 'utils';
-import { PICK_SQUARE, END_GAME } from 'store/actions';
+import { PICK_SQUARE, END_GAME, UPDATE_SETTINGS } from 'store/actions';
+import { CROSS, NOUGHT, EMPTY } from 'types';
 
 const DEFAULT_STATE = {
-  cells: new Array(9),
-  activePlayer: 0
+  cells: new Array(9).fill(EMPTY),
+  activePlayer: CROSS
 };
 
 // recordMove :: (Action, State) -> Cells -> Cells
 const recordMove = ({ index }, { activePlayer }) => update(index, activePlayer);
 // switchPlayer :: ActivePlayer -> ActivePlayer
-const switchPlayer = player => (player === 0 ? 1 : 0);
+const switchPlayer = player => (player === CROSS ? NOUGHT : CROSS);
 
 export default createReducer(DEFAULT_STATE, {
   [PICK_SQUARE]: (action, state) =>
@@ -18,7 +19,10 @@ export default createReducer(DEFAULT_STATE, {
       cells: recordMove(action.payload, state),
       activePlayer: switchPlayer
     }),
-  [END_GAME]: () => always(DEFAULT_STATE)
+  [END_GAME]: () => always(DEFAULT_STATE),
+  [UPDATE_SETTINGS]: () => always(DEFAULT_STATE)
 });
 
 export const cellsSelector = prop('cells');
+export const getActivePlayer = prop('activePlayer');
+export const isGameInProgress = state => !all(equals(EMPTY), state.cells);
