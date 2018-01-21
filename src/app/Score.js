@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './Score.css';
-import { getScore } from 'store/reducers';
+import { getScore, isVsCom } from 'store/reducers';
 import { P1, P2 } from 'types';
 
-const Score = ({ score }) => (
+const Score = ({ score, isVsCom }) => (
   <div className="score">
     <div>
       <b>P1</b>
@@ -17,13 +17,16 @@ const Score = ({ score }) => (
       {score.tie}
     </div>
     <div>
-      <b>P2</b>
+      <b>{isVsCom ? 'COM' : 'P2'}</b>
       <br />
       {score[P2]}
     </div>
   </div>
 );
 
-const mapStateToProps = state => ({ score: getScore(state) });
+const mapStateToProps = state => ({
+  score: getScore(state),
+  isVsCom: isVsCom(state)
+});
 
 export default connect(mapStateToProps)(Score);
