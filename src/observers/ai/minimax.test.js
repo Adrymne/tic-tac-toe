@@ -37,41 +37,27 @@ describe('getAvailableMoves', () => {
   });
 });
 
-describe('pickBestMove', () => {
-  const subject = sut.pickBestMove;
+describe('pickMoveFor', () => {
+  const subject = sut.pickMoveFor;
 
-  it('player move', () => {
+  it('returns higher score move for player turn', () => {
     const isPlayerTurn = true;
-    const results = [
-      { move: 1, score: 0 },
-      { move: 5, score: 10 },
-      { move: 6, score: -10 },
-      { move: 8, score: 10 }
-    ];
+    const m1 = { score: 0, move: 4 };
+    const m2 = { score: 10, move: 3 };
 
-    const result = subject(isPlayerTurn, results);
+    const result = subject(isPlayerTurn, m1, m2);
 
-    expect(result).toEqual({
-      move: 5,
-      score: 10
-    });
+    expect(result).toBe(m2);
   });
 
-  it('opponent move', () => {
+  it('returns lower score for opponent turn', () => {
     const isPlayerTurn = false;
-    const results = [
-      { move: 1, score: 0 },
-      { move: 5, score: 10 },
-      { move: 6, score: -10 },
-      { move: 8, score: 10 }
-    ];
+    const m1 = { score: 0, move: 4 };
+    const m2 = { score: 10, move: 3 };
 
-    const result = subject(isPlayerTurn, results);
+    const result = subject(isPlayerTurn, m1, m2);
 
-    expect(result).toEqual({
-      move: 6,
-      score: -10
-    });
+    expect(result).toBe(m1);
   });
 });
 

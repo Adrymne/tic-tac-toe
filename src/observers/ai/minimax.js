@@ -16,35 +16,38 @@ export const getAvailableMoves = cells =>
 // nextTurn :: Mark -> Mark
 const nextTurn = player => (player === NOUGHT ? CROSS : NOUGHT);
 
-// movePredicate :: Boolean -> ((Result, Result) -> Result)
-const movePredicate = isPlayerTurn =>
-  isPlayerTurn ? R.maxBy(R.prop('score')) : R.minBy(R.prop('score'));
-// pickBestMove :: Boolean -> [Result] -> Result
-export const pickBestMove = R.curry((isPlayerTurn, results) =>
-  R.reduce(movePredicate(isPlayerTurn), R.head(results), R.tail(results))
+// bestMoveFor :: Boolean -> Result -> Result -> Result
+export const pickMoveFor = R.curry(
+  (isPlayerTurn, a, b) =>
+    isPlayerTurn
+      ? R.maxBy(R.prop('score'), a, b)
+      : R.minBy(R.prop('score'), a, b)
 );
 
 // MINIMAX
 
 let minimax;
 
+// evaluateMove :: Mark -> Mark -> Cells -> Index -> Result
 const evaluateMove = R.curry((player, active, cells, move) => ({
-  score: minimax(player, nextTurn(active), R.update(move, active, cells)).score,
+  ...minimax(player, nextTurn(active), R.update(move, active, cells)),
   move
 }));
 
-// minimax :: Mark -> Mark -> Cells -> Index -> Result
+// minimax :: Mark -> Mark -> Cells -> Result
 minimax = (player, active, cells) => {
   const { isEnded, winner } = findWinner(cells);
   if (isEnded) {
     return { score: score(player, winner), move: undefined };
   }
 
-  return R.pipe(
-    getAvailableMoves,
+  const moves = getAvailableMoves(cells);
+  return R.transduce(
     R.map(evaluateMove(player, active, cells)),
-    pickBestMove(active === player)
-  )(cells);
+    pickMoveFor(active === player),
+    evaluateMove(player, active, cells, R.head(moves)),
+    R.tail(moves)
+  );
 };
 
 export default minimax;
