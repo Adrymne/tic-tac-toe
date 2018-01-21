@@ -11,7 +11,7 @@ it('select square for active player', () => {
       CROSS, EMPTY, EMPTY,
       CROSS, NOUGHT, NOUGHT
     ],
-    activePlayer: CROSS
+    nextMark: CROSS
   };
   const action = actions.pickSquare(1, 1);
 
@@ -35,11 +35,11 @@ it('update active player', () => {
     ]
   };
   const action = actions.pickSquare(1, 1);
-  const crossTurn = R.assoc('activePlayer', CROSS, state);
-  const noughtTurn = R.assoc('activePlayer', NOUGHT, state);
+  const crossTurn = R.assoc('nextMark', CROSS, state);
+  const noughtTurn = R.assoc('nextMark', NOUGHT, state);
 
-  expect(R.prop('activePlayer', subject(crossTurn, action))).toBe(NOUGHT);
-  expect(R.prop('activePlayer', subject(noughtTurn, action))).toBe(CROSS);
+  expect(R.prop('nextMark', subject(crossTurn, action))).toBe(NOUGHT);
+  expect(R.prop('nextMark', subject(noughtTurn, action))).toBe(CROSS);
 });
 
 it('reset game if settings updated', () => {
@@ -50,7 +50,7 @@ it('reset game if settings updated', () => {
       CROSS, EMPTY, EMPTY,
       CROSS, NOUGHT, EMPTY
     ],
-    activePlayer: NOUGHT
+    nextMark: NOUGHT
   };
   const action = actions.updateSettings();
 
@@ -63,6 +63,6 @@ it('reset game if settings updated', () => {
       EMPTY, EMPTY, EMPTY,
       EMPTY, EMPTY, EMPTY
     ],
-    activePlayer: CROSS
+    nextMark: CROSS
   });
 });

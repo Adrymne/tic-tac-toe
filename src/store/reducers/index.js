@@ -15,6 +15,7 @@ export const getP2Mark = pipe(prop('p1'), p1Selectors.getP2Mark);
 export const getP2Type = pipe(prop('p2'), p2Selectors.getP2Type);
 export const isVsCom = pipe(prop('p2'), p2Selectors.isVsCom);
 export const getScore = prop('score');
+export const getNextMark = pipe(prop('game'), gameSelectors.getNextMark);
 export const getCells = pipe(prop('game'), gameSelectors.cellsSelector);
 export const isGameInProgress = pipe(
   prop('game'),
@@ -26,6 +27,6 @@ export const getBoard = createSelector(getCells, splitEvery(3));
 
 export const getActivePlayer = createSelector(
   getP1Mark,
-  pipe(prop('game'), gameSelectors.getActivePlayer),
+  getNextMark,
   (p1Mark, activePlayer) => (p1Mark === activePlayer ? P1 : P2)
 );

@@ -3,7 +3,7 @@ import { Button } from 'reactstrap';
 import './Cell.css';
 import { EMPTY } from 'types';
 
-const Cell = ({ contents, onClick }) => (
+const Cell = ({ contents, onClick, nextMark }) => (
   <React.Fragment>
     {contents !== EMPTY ? (
       <div className="cell board-cell">{contents}</div>
@@ -13,7 +13,9 @@ const Cell = ({ contents, onClick }) => (
         outline
         color="secondary"
         onClick={onClick}
-      />
+      >
+        {nextMark}
+      </Button>
     )}
   </React.Fragment>
 );
