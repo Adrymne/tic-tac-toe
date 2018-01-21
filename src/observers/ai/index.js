@@ -1,11 +1,21 @@
 import * as R from 'ramda';
+import { EMPTY } from 'types';
 import minimax from './minimax';
+import opener from './opener';
 import { getP2Mark, getCells } from 'store/reducers';
 import * as actions from 'store/actions';
 
-// evaluateBoard :: Mark -> Cells -> Result
+// getTurnCount :: Cells -> Number
+export const getTurnCount = R.pipe(R.reject(R.equals(EMPTY)), R.length);
+
+// findNextMove :: Mark -> Cells -> Result
 const findNextMove = R.curry((computerMark, cells) =>
-  minimax(computerMark, computerMark, cells)
+  R.pipe(
+    getTurnCount,
+    R.ifElse(opener.isDefined, opener.execute(cells), () =>
+      minimax(computerMark, computerMark, cells)
+    )
+  )(cells)
 );
 
 // executeMove :: Result -> Action

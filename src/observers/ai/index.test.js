@@ -1,5 +1,20 @@
 import * as sut from './index';
 import * as actions from 'store/actions';
+import { CROSS, NOUGHT, EMPTY } from 'types';
+
+it('getTurnCount', () => {
+  const subject = sut.getTurnCount;
+  // prettier-ignore
+  const cells = [
+    CROSS, EMPTY, EMPTY,
+    EMPTY, NOUGHT, EMPTY,
+    EMPTY, EMPTY, EMPTY,
+  ];
+
+  const result = subject(cells);
+
+  expect(result).toBe(2);
+});
 
 it('executeMove', () => {
   const subject = sut.executeMove;
