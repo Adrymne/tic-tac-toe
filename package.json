@@ -2,8 +2,10 @@
   "name": "tic-tac-toe",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://adrymne.github.io/tic-tac-toe",
   "dependencies": {
     "bootstrap": "^4.0.0-beta.3",
+    "gh-pages": "^1.1.0",
     "ramda": "^0.25.0",
     "react": "^16.2.0",
     "react-css-transition-replace": "^3.0.2",
@@ -19,6 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }
