@@ -1,23 +1,23 @@
 import React from 'react';
-import { Button } from 'reactstrap';
+import CSSReplaceTransition from 'react-css-transition-replace';
 import './Cell.css';
 import { EMPTY } from 'types';
+import EmptyCell from './cell/EmptyCell';
+import SelectedCell from './cell/SelectedCell';
 
 const Cell = ({ contents, onClick, nextMark }) => (
-  <React.Fragment>
-    {contents !== EMPTY ? (
-      <div className="cell board-cell">{contents}</div>
+  <CSSReplaceTransition
+    className="cell-container"
+    transitionName="fade-wait"
+    transitionEnterTimeout={500}
+    transitionLeaveTimeout={500}
+  >
+    {contents === EMPTY ? (
+      <EmptyCell key={contents} nextMark={nextMark} onClick={onClick} />
     ) : (
-      <Button
-        className="cell empty-cell"
-        outline
-        color="secondary"
-        onClick={onClick}
-      >
-        {nextMark}
-      </Button>
+      <SelectedCell key={contents} contents={contents} />
     )}
-  </React.Fragment>
+  </CSSReplaceTransition>
 );
 
 export default Cell;
